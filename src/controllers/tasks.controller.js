@@ -1,6 +1,9 @@
 import { pool } from "../db.js"
 
-export const getAllTasks = (req, res) => res.send("obteniendo tareas")
+export const getAllTasks = async (req, res) => {
+  const result = await pool.query("SELECT * FROM task")
+  return res.json(result.rows)
+}
 
 export const getTask = (req, res) => res.send("obteniendo tarea única")
 
@@ -16,7 +19,7 @@ export const createTask = async (req, res, next) => {
     res.json(result.rows[0])
   } catch (error) {
     if (error.code === "23505") {
-      return res.send("task already exist")
+      return res.status(409).json({ message: "task already exist" })
     }
     next(error)
   }
