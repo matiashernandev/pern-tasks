@@ -5,7 +5,19 @@ export const getAllTasks = async (req, res) => {
   return res.json(result.rows)
 }
 
-export const getTask = (req, res) => res.send("obteniendo tarea única")
+export const getTask = async (req, res) => {
+  const result = await pool.query("SELECT * FROM task WHERE id = $1", [
+    req.params.id,
+  ])
+
+  if (result.rowCount === 0) {
+    return res.status(404).json({
+      message: "Task not found",
+    })
+  }
+
+  return res.json(result.rows[0])
+}
 
 export const createTask = async (req, res, next) => {
   const { title, description } = req.body
@@ -19,7 +31,7 @@ export const createTask = async (req, res, next) => {
     res.json(result.rows[0])
   } catch (error) {
     if (error.code === "23505") {
-      return res.status(409).json({ message: "task already exist" })
+      return res.status(409).json({ message: "Task already exist" })
     }
     next(error)
   }
