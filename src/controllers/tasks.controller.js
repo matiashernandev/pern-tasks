@@ -39,4 +39,16 @@ export const createTask = async (req, res, next) => {
 
 export const updateTask = (req, res) => res.send("actualizando tarea única")
 
-export const deleteTask = (req, res) => res.send("eliminando tarea")
+export const deleteTask = async (req, res) => {
+  const result = await pool.query("DELETE FROM task WHERE id = $1", [
+    req.params.id,
+  ])
+
+  if (result.rowCount === 0) {
+    return res.status(404).json({
+      message: "Task not found",
+    })
+  }
+
+  return res.sendStatus(204)
+}
