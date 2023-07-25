@@ -1,5 +1,6 @@
 import { pool } from "../db.js"
 import bcrypt from "bcrypt"
+import { createAccessToken } from "../libs/jwt.js"
 
 export const signin = (req, res) => res.send("ingresando")
 
@@ -13,9 +14,12 @@ export const signup = async (req, res) => {
       "INSERT INTO users(name, email, password) VALUES($1, $2, $3) RETURNING *",
       [name, email, hashedPassword]
     )
-    console.log(result)
 
-    return res.json(result.rows[0])
+    const token = await createAccessToken({ id: result.rows[0].id })
+
+    //return res.json(result.rows[0])
+
+    return res.json({ token: token })
   } catch (error) {
     if (error.code === "23505") {
       return res.status(400).json({ message: "Email is already registered" })
