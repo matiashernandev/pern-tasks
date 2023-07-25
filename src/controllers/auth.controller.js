@@ -21,7 +21,8 @@ export const signin = async (req, res) => {
     })
   }
 
-  const token = createAccessToken({ id: result.rows[0].id })
+  const token = await createAccessToken({ id: result.rows[0].id })
+  console.log(token)
 
   res.cookie("token", token, {
     httpOnly: true,
@@ -33,7 +34,7 @@ export const signin = async (req, res) => {
   return res.json(result.rows[0])
 }
 
-export const signup = async (req, res) => {
+export const signup = async (req, res, next) => {
   const { name, email, password } = req.body
 
   try {
@@ -58,9 +59,19 @@ export const signup = async (req, res) => {
     if (error.code === "23505") {
       return res.status(400).json({ message: "Email is already registered" })
     }
+
+    next(error)
   }
 }
 
-export const signout = (req, res) => {}
+export const signout = (req, res) => {
+  res.clearCookie("token")
+  res.sendStatus(200)
+}
 
-export const profile = (req, res) => res.send("perfil del usuario")
+export const profile = async (req, res) => {
+  const result = await pool.query("SELECT * FROM users WHERE id = $1", [
+    req.userId,
+  ])
+  res.json(result.rows[0])
+}
