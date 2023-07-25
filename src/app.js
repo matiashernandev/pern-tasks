@@ -2,11 +2,13 @@ import express from "express"
 import morgan from "morgan"
 import taskRoutes from "./routes/tasks.routes.js"
 import authRoutes from "./routes/auth.routes.js"
+import cookieParser from "cookie-parser"
 
 const app = express()
 
 /* ------------------------------- middlewares ------------------------------ */
 app.use(morgan("dev"))
+app.use(cookieParser())
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
