@@ -1,12 +1,16 @@
 import { Link } from "react-router-dom"
 import { Button, Card, Input, Label } from "../components/ui"
 import { useForm } from "react-hook-form"
+import axios from "axios"
 
 function LoginPage() {
   const { register, handleSubmit } = useForm()
 
-  const onSubmit = handleSubmit((data) => {
-    console.log(data)
+  const onSubmit = handleSubmit(async (data) => {
+    const res = await axios.post("http://localhost:3000/api/signin", data, {
+      withCredentials: true,
+    })
+    console.log(res)
   })
 
   return (
@@ -34,7 +38,7 @@ function LoginPage() {
           <Button>Sign in</Button>
 
           <div className="flex justify-between my-4">
-            <p>Don't have an account?</p>
+            <p>Don&apos;t have an account?</p>
             <Link className="font-bold" to="/register">
               Register
             </Link>
