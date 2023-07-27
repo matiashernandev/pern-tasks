@@ -1,5 +1,6 @@
 import { Button, Card, Input } from "../components/ui"
 import { useForm } from "react-hook-form"
+import axios from "axios"
 
 function RegisterPage() {
   const {
@@ -9,19 +10,11 @@ function RegisterPage() {
   } = useForm()
 
   const onSubmit = handleSubmit(async (data) => {
-    //console.log(data)
-    const response = await fetch("http://localhost:3000/api/signup", {
-      method: "POST",
-      credentials: "include",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-        // "Access-Control-Allow-Credentials": true,
-      },
+    const res = await axios.post("http://localhost:3000/api/signup", data, {
+      withCredentials: true,
     })
 
-    const dataSignup = await response.json()
-    console.log(dataSignup)
+    console.log(res)
   })
 
   return (
