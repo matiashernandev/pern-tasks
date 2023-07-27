@@ -1,16 +1,16 @@
-import { Link } from "react-router-dom"
-import { Button, Card, Input, Label } from "../components/ui"
 import { useForm } from "react-hook-form"
-import axios from "axios"
+import { Link, useNavigate } from "react-router-dom"
+import { Button, Card, Input, Label } from "../components/ui"
+import { useAuth } from "../context/useAuth"
 
 function LoginPage() {
   const { register, handleSubmit } = useForm()
+  const { signin } = useAuth()
+  const navigate = useNavigate()
 
   const onSubmit = handleSubmit(async (data) => {
-    const res = await axios.post("http://localhost:3000/api/signin", data, {
-      withCredentials: true,
-    })
-    console.log(res)
+    await signin(data)
+    navigate("/profile")
   })
 
   return (
