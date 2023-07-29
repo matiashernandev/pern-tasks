@@ -1,5 +1,5 @@
 import axios from "axios"
-import { createContext, useState } from "react"
+import { createContext, useEffect, useState } from "react"
 
 export const AuthContext = createContext()
 
@@ -8,19 +8,43 @@ export function AuthProvider({ children }) {
   const [isAuth, setIsAuth] = useState(false)
   const [errors, setErrors] = useState(null)
 
-  const signup = async (data) => {
-    const res = await axios.post("http://localhost:3000/api/signup", data, {
-      withCredentials: true,
-    })
-    setUser(res.data)
+  const signin = async (data) => {
+    try {
+      const res = await axios.post("http://localhost:3000/api/signin", data, {
+        withCredentials: true,
+      })
+      setUser(res.data)
+      setIsAuth(true)
+
+      return res.data
+    } catch (error) {
+      if (Array.isArray(error.response.data)) {
+        return setErrors(error.response.data)
+      }
+
+      setErrors([error.response.data.message])
+    }
   }
 
-  const signin = async (data) => {
-    const res = await axios.post("http://localhost:3000/api/signin", data, {
-      withCredentials: true,
-    })
-    setUser(res.data)
+  const signup = async (data) => {
+    try {
+      const res = await axios.post("http://localhost:3000/api/signup", data, {
+        withCredentials: true,
+      })
+      setUser(res.data)
+      setIsAuth(true)
+
+      return res.data
+    } catch (error) {
+      if (Array.isArray(error.response.data)) {
+        return setErrors(error.response.data)
+      }
+
+      setErrors([error.response.data.message])
+    }
   }
+
+  useEffect(() => {}, [])
 
   return (
     <AuthContext.Provider value={{ user, isAuth, errors, signup, signin }}>
