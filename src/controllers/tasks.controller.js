@@ -14,7 +14,7 @@ export const getTask = async (req, res) => {
 
   if (result.rowCount === 0) {
     return res.status(404).json({
-      message: "Task not found",
+      message: "Tarea no encontrada",
     })
   }
 
@@ -33,7 +33,7 @@ export const createTask = async (req, res, next) => {
     res.json(result.rows[0])
   } catch (error) {
     if (error.code === "23505") {
-      return res.status(409).json({ message: "Task already exist" })
+      return res.status(409).json({ message: "La tarea ya existe." })
     }
     next(error)
   }
@@ -49,7 +49,7 @@ export const updateTask = async (req, res) => {
   )
 
   if (result.rowCount === 0) {
-    return res.json({ message: "Task not found" })
+    return res.json({ message: "Tarea no encontrada." })
   }
 
   return res.json(result.rows[0])
@@ -62,7 +62,7 @@ export const deleteTask = async (req, res) => {
 
   if (result.rowCount === 0) {
     return res.status(404).json({
-      message: "Task not found",
+      message: "Tarea no encontrada",
     })
   }
 

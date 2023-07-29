@@ -11,23 +11,22 @@ export const signin = async (req, res) => {
   ])
 
   if (result.rowCount === 0) {
-    return res.status(400).json({ message: "Email is not registered" })
+    return res.status(400).json({ message: "Email no registrado." })
   }
 
   const validPasswowrd = await bcrypt.compare(password, result.rows[0].password)
 
   if (!validPasswowrd) {
     return res.status(400).json({
-      message: "Password is invalid",
+      message: "Password no válido.",
     })
   }
 
   const token = await createAccessToken({ id: result.rows[0].id })
-  console.log(token)
 
   res.cookie("token", token, {
-    httpOnly: true,
-    secure: true,
+    // httpOnly: true,
+    // secure: true,
     sameSite: "none",
     maxAge: 24 * 60 * 60 * 1000, // 1 day
   })
@@ -50,8 +49,8 @@ export const signup = async (req, res, next) => {
     const token = await createAccessToken({ id: result.rows[0].id })
 
     res.cookie("token", token, {
-      httpOnly: true,
-      secure: true,
+      // httpOnly: true,
+      // secure: true,
       sameSite: "none",
       maxAge: 24 * 60 * 60 * 1000, // 1 day
     })
@@ -59,7 +58,7 @@ export const signup = async (req, res, next) => {
     return res.json(result.rows[0])
   } catch (error) {
     if (error.code === "23505") {
-      return res.status(400).json({ message: "Email is already registered" })
+      return res.status(400).json({ message: "El correo ya está registrado." })
     }
 
     next(error)
