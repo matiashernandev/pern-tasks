@@ -1,5 +1,6 @@
-import axios from "axios"
+import axios from "../api/axios"
 import { createContext, useEffect, useState } from "react"
+import Cookie from "js-cookie"
 
 export const AuthContext = createContext()
 
@@ -10,9 +11,7 @@ export function AuthProvider({ children }) {
 
   const signin = async (data) => {
     try {
-      const res = await axios.post("http://localhost:3000/api/signin", data, {
-        withCredentials: true,
-      })
+      const res = await axios.post("/signin", data)
       setUser(res.data)
       setIsAuth(true)
 
@@ -28,9 +27,7 @@ export function AuthProvider({ children }) {
 
   const signup = async (data) => {
     try {
-      const res = await axios.post("http://localhost:3000/api/signup", data, {
-        withCredentials: true,
-      })
+      const res = await axios.post("/signup", data)
       setUser(res.data)
       setIsAuth(true)
 
@@ -44,7 +41,21 @@ export function AuthProvider({ children }) {
     }
   }
 
-  useEffect(() => {}, [])
+  useEffect(() => {
+    if (Cookie.get("token")) {
+      axios
+        .get("/profile")
+        .then((res) => {
+          setUser(res.data)
+          setIsAuth(true)
+        })
+        .catch((err) => {
+          console.log(err)
+          setUser(null)
+          setIsAuth(false)
+        })
+    }
+  }, [])
 
   return (
     <AuthContext.Provider value={{ user, isAuth, errors, signup, signin }}>

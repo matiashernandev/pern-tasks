@@ -20,8 +20,13 @@ function LoginPage() {
     <div className="h-[calc(100vh-64px)] flex items-center justify-center  ">
       <Card>
         {errors &&
-          errors.map((err) => (
-            <p className="bg-red-500 p-2 m-2 text-white text-center">{err}</p>
+          errors.map((err, index) => (
+            <p
+              key={index}
+              className="bg-red-500 p-2 m-2 text-white text-center"
+            >
+              {err}
+            </p>
           ))}
 
         <h1 className="text-4xl font-bold my-2 text-center">Sign in</h1>
