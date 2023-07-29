@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom"
-import { Card } from "../components/ui"
+import { Card, Container } from "../components/ui"
 
 function NotFound() {
   return (
-    <div className="h-[calc(100vh-64px)] bg-slate-100 flex justify-center items-center">
+    <Container className="h-[calc(100vh-10rem)] bg-slate-100 flex justify-center items-center">
       <Card>
         <div className="flex flex-col justify-center items-center">
           <h1 className="text-4xl font-bold my-2">Page not found :(</h1>
@@ -11,7 +11,7 @@ function NotFound() {
           <Link to="/">Go back to home</Link>
         </div>
       </Card>
-    </div>
+    </Container>
   )
 }
 export default NotFound
