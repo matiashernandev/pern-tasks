@@ -3,9 +3,11 @@ import { Card, Button } from "../ui"
 import { useNavigate } from "react-router-dom"
 import { PiTrashSimpleLight } from "react-icons/pi"
 import { BiPencil } from "react-icons/bi"
+import { useTasks } from "../../context/TaskContext"
 
 function TaskCard({ task }) {
   const navigate = useNavigate()
+  const { deleteTask } = useTasks()
 
   return (
     <Card key={task.id} className="px-7 py-4 flex flex-col justify-center">
@@ -23,6 +25,7 @@ function TaskCard({ task }) {
           onClick={async () => {
             if (window.confirm("¿Estás seguro de eliminar esta tarea?")) {
               deleteTask(task.id)
+              console.log("borrando")
             }
           }}
         >
