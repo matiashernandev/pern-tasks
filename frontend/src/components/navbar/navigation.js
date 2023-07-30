@@ -23,10 +23,6 @@ export const privateRoutes = [
     path: "/tasks/new",
   },
   {
-    name: "Edit task",
-    path: "/tasks/1/edit",
-  },
-  {
     name: "Profile",
     path: "/profile",
   },
