@@ -7,3 +7,5 @@ export const getAllTasksRequest = () => axios.get("/tasks")
 export const deleteTaskRequest = (id) => axios.delete(`/tasks/${id}`)
 
 export const getTaskResquest = (id) => axios.get(`/tasks/${id}`)
+
+export const updateTaskRequest = (id, task) => axios.put(`/tasks/${id}`, task)
