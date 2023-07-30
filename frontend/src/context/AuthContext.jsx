@@ -57,15 +57,14 @@ export function AuthProvider({ children }) {
         .then((res) => {
           setUser(res.data)
           setIsAuth(true)
-          setLoading(false)
         })
         .catch((err) => {
           console.log(err)
           setUser(null)
           setIsAuth(false)
-          setLoading(false)
         })
     }
+    setLoading(false)
   }, [])
 
   return (

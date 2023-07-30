@@ -4,23 +4,27 @@ import { Button, Card, Container, Input, Label } from "../components/ui"
 import { useAuth } from "../context/useAuth"
 
 function LoginPage() {
-  const { register, handleSubmit } = useForm()
-  const { signin, errors } = useAuth()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm()
+  const { signin, errors: loginErrors } = useAuth()
   const navigate = useNavigate()
 
   const onSubmit = handleSubmit(async (data) => {
     const user = await signin(data)
 
     if (user) {
-      navigate("/profile")
+      navigate("/tasks")
     }
   })
 
   return (
     <Container className="h-[calc(100vh-10rem)] flex items-center justify-center  ">
       <Card>
-        {errors &&
-          errors.map((err, index) => (
+        {loginErrors &&
+          loginErrors.map((err, index) => (
             <p
               key={index}
               className="bg-red-500 p-2 m-2 text-white text-center"
@@ -40,6 +44,8 @@ function LoginPage() {
             })}
           />
 
+          {errors.email && <p className="text-red-500">Email es requerido</p>}
+
           <Label htmlFor="password">Password</Label>
           <Input
             type="password"
@@ -48,10 +54,13 @@ function LoginPage() {
               required: true,
             })}
           />
+          {errors.password && (
+            <p className="text-red-500">Contraseña es requerida</p>
+          )}
           <Button>Sign in</Button>
 
           <div className="flex justify-between my-4">
-            <p>Don&apos;t have an account?</p>
+            <p className="mr-4">Don&apos;t have an account?</p>
             <Link className="font-bold" to="/register">
               Register
             </Link>
