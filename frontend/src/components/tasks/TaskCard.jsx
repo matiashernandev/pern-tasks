@@ -25,7 +25,6 @@ function TaskCard({ task }) {
           onClick={async () => {
             if (window.confirm("¿Estás seguro de eliminar esta tarea?")) {
               deleteTask(task.id)
-              console.log("borrando")
             }
           }}
         >

@@ -21,7 +21,6 @@ function TaskFormPage() {
     if (!params.id) {
       task = await createTask(data)
     } else {
-      console.log("editando")
       task = await updateTask(params.id, data)
     }
     if (task) {

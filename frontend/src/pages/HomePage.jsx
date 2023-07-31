@@ -1,10 +1,6 @@
 import { Card } from "../components/ui"
-import { useAuth } from "../context/useAuth.jsx"
 
 function HomePage() {
-  const data = useAuth()
-  console.log(data)
-
   return (
     <div>
       <Card>

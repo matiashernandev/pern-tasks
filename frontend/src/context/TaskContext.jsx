@@ -26,12 +26,11 @@ export const TaskProvider = ({ children }) => {
   const createTask = async (task) => {
     try {
       const res = await createTaskRequest(task)
-      // console.log(res)
 
       setTasks([...tasks, res.data])
       return res.data
     } catch (error) {
-      console.log("eeeeeerrrr", error)
+      console.error(error)
       setErrors([error.response.data.message])
     }
   }
