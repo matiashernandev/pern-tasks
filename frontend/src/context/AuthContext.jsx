@@ -67,6 +67,13 @@ export function AuthProvider({ children }) {
     setLoading(false)
   }, [])
 
+  useEffect(() => {
+    const clean = setTimeout(() => {
+      setErrors(null)
+    }, 5000)
+    return () => clearTimeout(clean)
+  }, [errors])
+
   return (
     <AuthContext.Provider
       value={{ user, isAuth, errors, signup, signin, signout, loading }}
